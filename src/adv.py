@@ -1,5 +1,5 @@
 from room import Room
-
+from player import Player
 # Declare all the rooms
 
 room = {
@@ -39,13 +39,41 @@ room['treasure'].s_to = room['narrow']
 
 # Make a new player object that is currently in the 'outside' room.
 
-# Write a loop that:
-#
-# * Prints the current room name
-# * Prints the current description (the textwrap module might be useful here).
-# * Waits for user input and decides what to do.
-#
-# If the user enters a cardinal direction, attempt to move to the room there.
-# Print an error message if the movement isn't allowed.
-#
-# If the user enters "q", quit the game.
+currentRoom = room["outside"]
+
+name = input("Please Enter Your name : ")
+player = Player(name, currentRoom)
+
+describe = f"{player.name}, {currentRoom}"
+
+playerAction = " "
+nextRoom = " "
+print ("Enter Your Movement, Press [N] for North, [S] for South, [E] for East, [W] for West and [q] Quit")
+while True :
+    try:
+        playerAction = input("Enter your Movement: ")
+        if playerAction == "Q" or playerAction == "q":
+            break
+        elif playerAction == "N" or playerAction == "n":
+            nextRoom =  currentRoom.n_to
+            print(nextRoom)
+        elif playerAction == "E" or playerAction == "e":
+            nextRoom =  currentRoom.e_to
+            print(nextRoom)
+        elif playerAction == "S" or playerAction == "s":
+            nextRoom = currentRoom.s_to
+            print(nextRoom)
+        elif playerAction == "W" or playerAction == "w":
+            nextRoom = currentRoom.w_to
+            print(nextRoom)
+    except AttributeError:
+            print('You Can not go this way.')
+            currentRoom = room["outside"]
+            playerAction = input("Enter Your Movement, Press [N] for North, [S] for South, [E] for East, [W] for West and [q] Quit\n")
+                    
+    if  nextRoom :
+        currentRoom = nextRoom
+    else: 
+        print('Incorrect input. Please use N, S, E, or W')
+        playerAction = input("Enter Your Movement, Press [N] for North, [S] for South, [E] for East, [W] for West and [q] Quit\n")
+
